@@ -3,7 +3,7 @@
  * FastAPI translate endpoint integration
  */
 
-const API_URL = 'https://early-toes-begin.loca.lt/translate';
+const API_URL = 'https://lyra-0tfe.onrender.com/translate';
 
 const LANGUAGE_SUGGESTIONS = [
   'Japanese (Business)',
