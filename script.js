@@ -307,7 +307,7 @@ function setLoading(isLoading) {
   button.classList.toggle('opacity-60', isLoading);
   button.classList.toggle('pointer-events-none', isLoading);
   button.classList.toggle('is-loading', isLoading);
-  label.textContent = isLoading ? t('action.loading') : t('action.synthesize');
+  label.textContent = isLoading ? 'Synthesizing… (first request may take ~30s)' : t('action.synthesize');
 
   if (progressLine) {
     progressLine.style.width = isLoading ? '100%' : '0';
