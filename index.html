@@ -1,0 +1,1120 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="assets/logo.png" rel="icon" type="image/png">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=Inter:wght@400;600&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        "colors": {
+                            "on-primary-fixed": "#07006c",
+                            "on-primary-container": "#0d0096",
+                            "outline-variant": "#464554",
+                            "primary-fixed-dim": "#c0c1ff",
+                            "on-primary-fixed-variant": "#2f2ebe",
+                            "inverse-surface": "#e1e2e7",
+                            "surface-dim": "#111417",
+                            "on-secondary-container": "#00515d",
+                            "on-tertiary": "#640039",
+                            "primary": "#c0c1ff",
+                            "on-background": "#e1e2e7",
+                            "tertiary": "#ffb0cd",
+                            "surface-container-low": "#191c1f",
+                            "surface-container-high": "#282a2e",
+                            "primary-container": "#8083ff",
+                            "surface-container-lowest": "#0c0e12",
+                            "on-error-container": "#ffdad6",
+                            "on-error": "#690005",
+                            "surface-tint": "#c0c1ff",
+                            "error-container": "#93000a",
+                            "surface-container-highest": "#323539",
+                            "tertiary-container": "#f751a1",
+                            "inverse-primary": "#494bd6",
+                            "secondary-fixed-dim": "#2fd9f4",
+                            "on-tertiary-container": "#570032",
+                            "error": "#ffb4ab",
+                            "secondary": "#5de6ff",
+                            "outline": "#908fa0",
+                            "on-tertiary-fixed": "#3e0022",
+                            "secondary-container": "#00cbe6",
+                            "on-secondary-fixed": "#001f25",
+                            "surface-container": "#1d2023",
+                            "background": "#05070A", // Overridden for Brand Base Layer
+                            "on-primary": "#1000a9",
+                            "on-surface-variant": "#c7c4d7",
+                            "on-tertiary-fixed-variant": "#8c0053",
+                            "tertiary-fixed": "#ffd9e4",
+                            "secondary-fixed": "#a2eeff",
+                            "on-surface": "#e1e2e7",
+                            "surface-variant": "#323539",
+                            "inverse-on-surface": "#2e3134",
+                            "surface-bright": "#37393d",
+                            "tertiary-fixed-dim": "#ffb0cd",
+                            "on-secondary-fixed-variant": "#004e5a",
+                            "on-secondary": "#00363e",
+                            "surface": "#111417",
+                            "primary-fixed": "#e1e0ff",
+                            "cosmic-purple": "#494bd6",
+                            "cosmic-cyan": "#5de6ff"
+                        },
+                        "borderRadius": {
+                            "DEFAULT": "1rem",
+                            "lg": "2rem",
+                            "xl": "3rem",
+                            "full": "9999px"
+                        },
+                        "spacing": {
+                            "container-padding": "32px",
+                            "unit": "8px",
+                            "gutter": "24px",
+                            "panel-gap": "16px"
+                        },
+                        "fontFamily": {
+                            "display-lg-mobile": ["Outfit"],
+                            "label-caps": ["Inter"],
+                            "body-md": ["Inter"],
+                            "display-lg": ["Outfit"],
+                            "headline-md": ["Outfit"],
+                            "body-lg": ["Inter"]
+                        },
+                        "fontSize": {
+                            "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                            "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                        }
+                    },
+                },
+            }
+        </script>
+    <style>
+            body {
+                background-color: transparent;
+                color: #e1e2e7;
+                overflow-x: hidden;
+                font-family: "DM Sans", sans-serif;
+            }
+
+            .autocomplete-wrapper {
+                position: relative;
+            }
+
+            .autocomplete-list {
+                position: absolute;
+                top: calc(100% + 4px);
+                left: 0;
+                right: 0;
+                z-index: 50;
+                max-height: 220px;
+                overflow-y: auto;
+                margin: 0;
+                padding: 6px;
+                list-style: none;
+                background: rgba(17, 20, 23, 0.95);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 1rem;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+            }
+
+            .autocomplete-item {
+                padding: 10px 14px;
+                border-radius: 0.75rem;
+                color: #e1e2e7;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background 0.15s ease, color 0.15s ease;
+            }
+
+            .autocomplete-item:hover,
+            .autocomplete-item.is-highlighted {
+                background: rgba(93, 230, 255, 0.12);
+                color: #5de6ff;
+            }
+    
+            /* Dynamic Video / GIF Background */
+            .dynamic-bg-container {
+                position: fixed;
+                inset: 0;
+                z-index: -1;
+                overflow: hidden;
+                background: #05070a;
+                pointer-events: none;
+            }
+
+            .dynamic-bg-media {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                opacity: 0;
+                transition: opacity 1.2s ease;
+                filter: blur(14px);
+                transform: scale(1.08);
+            }
+
+            .dynamic-bg-media.is-active {
+                opacity: 0.75;
+            }
+
+            .dynamic-bg-overlay {
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    180deg,
+                    rgba(5, 7, 10, 0.5) 0%,
+                    rgba(5, 7, 10, 0.78) 100%
+                );
+                backdrop-filter: blur(2px);
+                -webkit-backdrop-filter: blur(2px);
+            }
+
+            /* Fluid Gradient Background (fallback) */
+            .fluid-bg-container {
+                position: absolute;
+                inset: 0;
+                overflow: hidden;
+                transition: opacity 1.2s ease;
+            }
+
+            .fluid-bg-container.is-hidden {
+                opacity: 0;
+            }
+            
+            .liquid-blob {
+                position: absolute;
+                filter: blur(120px);
+                opacity: 0.5;
+                border-radius: 50%;
+                animation: fluidMove 20s infinite ease-in-out alternate;
+            }
+    
+            .lb-1 {
+                width: 70vw;
+                height: 70vh;
+                background: #6366f1; /* Cosmic purple */
+                top: -10%;
+                left: -10%;
+                animation-delay: 0s;
+            }
+    
+            .lb-2 {
+                width: 60vw;
+                height: 60vh;
+                background: #1e1b4b; /* Midnight blue */
+                bottom: -10%;
+                right: -10%;
+                animation-delay: -5s;
+            }
+    
+            .lb-3 {
+                width: 80vw;
+                height: 80vh;
+                background: #4f46e5; /* Indigo */
+                top: 20%;
+                left: 10%;
+                animation-delay: -10s;
+                opacity: 0.35;
+            }
+    
+            @keyframes fluidMove {
+                0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+                33% { transform: translate(8%, -8%) scale(1.05) rotate(5deg); }
+                66% { transform: translate(-8%, 8%) scale(0.95) rotate(-5deg); }
+                100% { transform: translate(4%, 4%) scale(1.02) rotate(2deg); }
+            }
+    
+            /* Glass Panels */
+            .glass-panel {
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 2rem;
+            }
+            
+            .glass-panel-header {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+    
+            /* Glowing Button */
+            .glow-button {
+                background: linear-gradient(135deg, #494bd6, #5de6ff);
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+                border: none;
+                color: white;
+                transition: all 0.3s ease;
+            }
+    
+            .glow-button:hover {
+                box-shadow: 0 0 30px rgba(93, 230, 255, 0.6);
+                transform: translateY(-2px);
+            }
+            
+            /* Ghost Inputs */
+            .ghost-input {
+                background: transparent !important;
+                background-color: transparent !important;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: #e1e2e7;
+                border-radius: 1rem;
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            input.ghost-input,
+            input.ghost-input:hover,
+            input.ghost-input:focus,
+            input.ghost-input:active {
+                background: transparent !important;
+                background-color: transparent !important;
+            }
+
+            input.ghost-input:-webkit-autofill,
+            input.ghost-input:-webkit-autofill:hover,
+            input.ghost-input:-webkit-autofill:focus,
+            input.ghost-input:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+                box-shadow: 0 0 0 1000px transparent inset !important;
+                -webkit-text-fill-color: #e1e2e7 !important;
+                caret-color: #e1e2e7;
+                transition: background-color 99999s ease-in-out 0s;
+            }
+            
+            .ghost-input:focus {
+                outline: none;
+                border-color: #5de6ff;
+                background: transparent !important;
+                background-color: transparent !important;
+                box-shadow: 0 0 10px rgba(93, 230, 255, 0.2);
+            }
+    
+            /* Textarea specific */
+            textarea.ghost-input {
+                resize: none;
+                border: none;
+            }
+            textarea.ghost-input:focus {
+                box-shadow: none;
+                border: none;
+                background: transparent !important;
+                background-color: transparent !important;
+            }
+    
+            /* Custom Scrollbar */
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
+            ::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            /* Transparent Sidebar */
+            .sidebar-nav {
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
+            .nav-brand-logo {
+                object-fit: contain;
+                flex-shrink: 0;
+                filter:
+                    drop-shadow(0 0 18px rgba(93, 230, 255, 0.55))
+                    drop-shadow(0 0 36px rgba(73, 75, 214, 0.45));
+            }
+
+            .sidebar-nav .nav-brand-logo {
+                width: 5.5rem;
+                height: 5.5rem;
+                min-width: 5.5rem;
+            }
+
+            .nav-brand-logo--mobile {
+                width: 3.25rem;
+                height: 3.25rem;
+                min-width: 3.25rem;
+            }
+
+            /* Aurora RGB rotating ring */
+            @keyframes aurora-spin {
+                to { transform: rotate(360deg); }
+            }
+
+            @keyframes aurora-pulse {
+                0%, 100% { opacity: 0.55; filter: blur(14px); }
+                50% { opacity: 0.9; filter: blur(20px); }
+            }
+
+            @keyframes aurora-input-hue-glow {
+                0% { filter: blur(8px) hue-rotate(0deg); }
+                100% { filter: blur(8px) hue-rotate(360deg); }
+            }
+
+            @keyframes aurora-panel-hue {
+                0% { filter: hue-rotate(0deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+
+            @keyframes aurora-panel-hue-glow {
+                0% { filter: blur(12px) hue-rotate(0deg); }
+                100% { filter: blur(12px) hue-rotate(360deg); }
+            }
+
+            .aurora-ring {
+                --aurora-gradient: conic-gradient(
+                    from 0deg,
+                    #494bd6,
+                    #5de6ff,
+                    #8083ff,
+                    #ffb0cd,
+                    #f751a1,
+                    #5de6ff,
+                    #494bd6
+                );
+                position: relative;
+                isolation: isolate;
+                border-radius: 1rem;
+                overflow: hidden;
+            }
+
+            .aurora-ring::before,
+            .aurora-ring::after {
+                content: "";
+                position: absolute;
+                inset: -120%;
+                background: var(--aurora-gradient);
+                animation: aurora-spin 3.5s linear infinite;
+                pointer-events: none;
+            }
+
+            .aurora-ring::before {
+                z-index: 0;
+                opacity: 0;
+                transition: opacity 0.35s ease;
+            }
+
+            .aurora-ring::after {
+                z-index: 0;
+                filter: blur(18px);
+                opacity: 0;
+                animation: aurora-spin 3.5s linear infinite, aurora-pulse 3s ease-in-out infinite;
+                transition: opacity 0.35s ease;
+            }
+
+            .aurora-ring > .aurora-ring__inner {
+                position: relative;
+                z-index: 1;
+                margin: 2px;
+                border-radius: calc(1rem - 2px);
+                background: rgba(5, 7, 10, 0.88);
+            }
+
+            /* Always-on: Synthesize */
+            .aurora-ring--live::before,
+            .aurora-ring--live::after {
+                opacity: 1;
+            }
+
+            .aurora-ring--live {
+                box-shadow: 0 0 28px rgba(73, 75, 214, 0.2);
+            }
+
+            .aurora-ring--live:hover {
+                box-shadow: 0 0 40px rgba(93, 230, 255, 0.35);
+            }
+
+            .aurora-ring--live:active::before,
+            .aurora-ring--live:active::after {
+                animation-duration: 1.5s, 1s;
+            }
+
+            .aurora-ring--live.is-loading::before,
+            .aurora-ring--live.is-loading::after {
+                animation-duration: 0.8s, 0.6s;
+            }
+
+            /* On focus / hover / active — nav hariç */
+            .aurora-ring--interactive:not(.aurora-ring--nav):focus-within::before,
+            .aurora-ring--interactive:not(.aurora-ring--nav):focus-within::after,
+            .aurora-ring--interactive:not(.aurora-ring--nav):hover::before,
+            .aurora-ring--interactive:not(.aurora-ring--nav):hover::after,
+            .aurora-ring--interactive:not(.aurora-ring--nav):active::before,
+            .aurora-ring--interactive:not(.aurora-ring--nav):active::after {
+                opacity: 1;
+            }
+
+            .aurora-ring--interactive:not(.aurora-ring--nav):focus-within::before,
+            .aurora-ring--interactive:not(.aurora-ring--nav):focus-within::after {
+                animation-duration: 2.5s, 2s;
+            }
+
+            .aurora-ring--interactive:not(.aurora-ring--nav):active::before,
+            .aurora-ring--interactive:not(.aurora-ring--nav):active::after {
+                animation-duration: 1.2s, 0.8s;
+            }
+
+            /* Dönen kare belli olmasın — gradient katmanını büyüt */
+            .aurora-ring--interactive:not(.aurora-ring--nav):not(.aurora-ring--input):not(.aurora-ring--panel)::before,
+            .aurora-ring--interactive:not(.aurora-ring--nav):not(.aurora-ring--input):not(.aurora-ring--panel)::after {
+                inset: -280%;
+            }
+
+            .aurora-ring--btn {
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                background: transparent;
+            }
+
+            .aurora-ring--btn > .aurora-ring__inner {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .aurora-ring--input {
+                overflow: visible;
+            }
+
+            /* Input: çerçeve sabit, sadece renk döngüsü — spin yok */
+            .aurora-ring--input::before,
+            .aurora-ring--input::after {
+                inset: 0;
+                border-radius: 1rem;
+                padding: 2px;
+                transform: none;
+                animation: aurora-panel-hue 6s linear infinite;
+                -webkit-mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+            }
+
+            .aurora-ring--input::after {
+                animation: aurora-input-hue-glow 6s linear infinite;
+                padding: 3px;
+            }
+
+            .aurora-ring--input:hover::before,
+            .aurora-ring--input:hover::after {
+                opacity: 0;
+            }
+
+            .aurora-ring--input:focus-within::before,
+            .aurora-ring--input:focus-within::after {
+                opacity: 1;
+            }
+
+            .aurora-ring--input > .aurora-ring__inner {
+                background: transparent !important;
+                padding: 0;
+                margin: 0;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: calc(1rem - 2px);
+            }
+
+            .aurora-ring--input:focus-within > .aurora-ring__inner {
+                border-color: transparent;
+            }
+
+            .aurora-ring--input .ghost-input {
+                border-color: transparent !important;
+                box-shadow: none !important;
+                margin: 0;
+                background: transparent !important;
+            }
+
+            .aurora-ring--panel {
+                border-radius: 2rem;
+                overflow: visible;
+            }
+
+            /* Panel: çerçeve sabit, sadece renk döngüsü — spin yok */
+            .aurora-ring--panel::before,
+            .aurora-ring--panel::after {
+                inset: 0;
+                border-radius: 2rem;
+                padding: 2px;
+                transform: none;
+                animation: aurora-panel-hue 6s linear infinite;
+                -webkit-mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+            }
+
+            .aurora-ring--panel::after {
+                animation: aurora-panel-hue-glow 6s linear infinite;
+                padding: 3px;
+            }
+
+            .aurora-ring--panel:hover::before,
+            .aurora-ring--panel:hover::after {
+                opacity: 0;
+            }
+
+            .aurora-ring--panel:focus-within::before,
+            .aurora-ring--panel:focus-within::after {
+                opacity: 1;
+            }
+
+            .aurora-ring--panel > .aurora-ring__inner {
+                margin: 0;
+                border-radius: calc(2rem - 2px);
+                background: transparent !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .aurora-ring--panel:focus-within > .aurora-ring__inner {
+                border-color: transparent;
+            }
+
+            .aurora-ring--panel .glass-panel-header {
+                background: transparent;
+            }
+
+            .aurora-ring--panel .panel-text-zone,
+            .aurora-ring--panel textarea,
+            .aurora-ring--panel #output-content {
+                background: transparent !important;
+                background-color: transparent !important;
+            }
+
+            .aurora-ring--nav {
+                border-radius: 0.75rem;
+                overflow: visible;
+            }
+
+            .aurora-ring--nav > .aurora-ring__inner {
+                margin: 1px;
+                border-radius: calc(0.75rem - 1px);
+                background: transparent;
+                padding: 0.5rem 0.875rem;
+                border-right: 4px solid transparent;
+                transition: padding 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+            }
+
+            /* Aktif sekme — Translate boyutuna büyür */
+            .aurora-ring--nav.aurora-ring--active > .aurora-ring__inner {
+                padding: 0.75rem 1rem;
+                background: rgba(255, 255, 255, 0.1);
+                border-right-color: var(--theme-secondary);
+            }
+
+            /* Nav: sadece aktif sekmede renk geçişi — spin yok, kare belli olmaz */
+            .aurora-ring--nav::before,
+            .aurora-ring--nav::after {
+                inset: 0;
+                border-radius: 0.75rem;
+                padding: 2px;
+                transform: none;
+                animation: aurora-panel-hue 6s linear infinite;
+                -webkit-mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+            }
+
+            .aurora-ring--nav::after {
+                animation: aurora-nav-hue-glow 6s linear infinite;
+                padding: 3px;
+            }
+
+            @keyframes aurora-nav-hue-glow {
+                0% { filter: blur(10px) hue-rotate(0deg); }
+                100% { filter: blur(10px) hue-rotate(360deg); }
+            }
+
+            /* Seçili değilken tamamen transparan, efekt yok */
+            .aurora-ring--nav:not(.aurora-ring--active)::before,
+            .aurora-ring--nav:not(.aurora-ring--active)::after {
+                opacity: 0 !important;
+                animation: none !important;
+            }
+
+            .aurora-ring--nav.aurora-ring--active::before,
+            .aurora-ring--nav.aurora-ring--active::after {
+                opacity: 1;
+            }
+
+            .aurora-ring--nav.aurora-ring--active:hover::before,
+            .aurora-ring--nav.aurora-ring--active:hover::after {
+                opacity: 1 !important;
+            }
+
+            /* Nav hover'da efekt açılmasın */
+            .aurora-ring--nav:hover::before,
+            .aurora-ring--nav:hover::after,
+            .aurora-ring--nav:focus::before,
+            .aurora-ring--nav:focus::after {
+                opacity: inherit;
+            }
+
+            .aurora-ring--nav:not(.aurora-ring--active):hover > .aurora-ring__inner {
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+            /* Theme palettes */
+            :root,
+            body[data-theme="cosmic"] {
+                --theme-primary: #c0c1ff;
+                --theme-secondary: #5de6ff;
+                --theme-accent-1: #494bd6;
+                --theme-accent-2: #5de6ff;
+                --theme-accent-3: #8083ff;
+                --theme-accent-4: #ffb0cd;
+                --theme-accent-5: #f751a1;
+                --blob-1: #6366f1;
+                --blob-2: #1e1b4b;
+                --blob-3: #4f46e5;
+            }
+
+            body[data-theme="aurora"] {
+                --theme-primary: #a7f3d0;
+                --theme-secondary: #22d3ee;
+                --theme-accent-1: #059669;
+                --theme-accent-2: #22d3ee;
+                --theme-accent-3: #34d399;
+                --theme-accent-4: #6ee7b7;
+                --theme-accent-5: #0ea5e9;
+                --blob-1: #10b981;
+                --blob-2: #0f766e;
+                --blob-3: #06b6d4;
+            }
+
+            body[data-theme="rose"] {
+                --theme-primary: #fbcfe8;
+                --theme-secondary: #fb7185;
+                --theme-accent-1: #db2777;
+                --theme-accent-2: #fb7185;
+                --theme-accent-3: #f472b6;
+                --theme-accent-4: #fbbf24;
+                --theme-accent-5: #f43f5e;
+                --blob-1: #ec4899;
+                --blob-2: #881337;
+                --blob-3: #f97316;
+            }
+
+            body[data-theme] .text-secondary { color: var(--theme-secondary) !important; }
+            body[data-theme] .text-primary { color: var(--theme-primary) !important; }
+            body[data-theme] .border-secondary { border-color: var(--theme-secondary) !important; }
+            body[data-theme] .bg-cosmic-cyan { background-color: var(--theme-secondary) !important; }
+            body[data-theme] .selection\:bg-cosmic-cyan::selection { background-color: var(--theme-secondary); }
+            body[data-theme] #progress-line { background-color: var(--theme-secondary); box-shadow: 0 0 10px var(--theme-secondary); }
+            body[data-theme] .nav-brand-logo {
+                filter: drop-shadow(0 0 18px color-mix(in srgb, var(--theme-secondary) 55%, transparent))
+                        drop-shadow(0 0 36px color-mix(in srgb, var(--theme-accent-1) 45%, transparent));
+            }
+
+            body[data-theme] .lb-1 { background: var(--blob-1); }
+            body[data-theme] .lb-2 { background: var(--blob-2); }
+            body[data-theme] .lb-3 { background: var(--blob-3); }
+
+            body[data-theme] .aurora-ring {
+                --aurora-gradient: conic-gradient(
+                    from 0deg,
+                    var(--theme-accent-1),
+                    var(--theme-accent-2),
+                    var(--theme-accent-3),
+                    var(--theme-accent-4),
+                    var(--theme-accent-5),
+                    var(--theme-accent-2),
+                    var(--theme-accent-1)
+                );
+            }
+
+            body[data-theme] .theme-option.is-active .aurora-ring__inner {
+                border: 1px solid var(--theme-secondary);
+                box-shadow: 0 0 16px color-mix(in srgb, var(--theme-secondary) 35%, transparent);
+            }
+
+            /* Effects off — stop all aurora motion */
+            body[data-effects="off"] .aurora-ring::before,
+            body[data-effects="off"] .aurora-ring::after {
+                animation: none !important;
+                opacity: 0 !important;
+            }
+
+            body[data-effects="off"] .liquid-blob {
+                animation: none !important;
+            }
+
+            #bg-freeze {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: blur(14px);
+                transform: scale(1.08);
+                opacity: 0;
+                transition: opacity 1.2s ease;
+            }
+
+            #bg-freeze.is-active {
+                opacity: 0.75;
+            }
+
+            .toggle-thumb {
+                transition: transform 0.25s ease;
+            }
+
+            .toggle-thumb.is-on {
+                transform: translateX(20px);
+            }
+        </style></head>
+    <body class="font-body-md text-body-md min-h-screen flex flex-col antialiased selection:bg-cosmic-cyan selection:text-surface-dim">
+    <!-- Dynamic Background: drop assets/background.mp4 or assets/background.gif to enable -->
+    <div class="dynamic-bg-container" id="dynamic-bg">
+    <video autoplay class="dynamic-bg-media" id="bg-video" loop muted playsinline>
+    <source src="assets/background.mp4" type="video/mp4">
+    </video>
+    <img alt="" class="dynamic-bg-media hidden" id="bg-gif" src="assets/background.gif">
+    <img alt="" class="hidden" id="bg-freeze">
+    <div class="dynamic-bg-overlay"></div>
+    <div class="fluid-bg-container" id="bg-fallback">
+    <div class="liquid-blob lb-1"></div>
+    <div class="liquid-blob lb-2"></div>
+    <div class="liquid-blob lb-3"></div>
+    </div>
+    </div>
+    <!-- SideNavBar (Desktop) -->
+    <nav class="sidebar-nav hidden md:flex flex-col fixed left-0 top-0 h-full z-40 h-screen w-64 border-r border-white/10">
+    <div class="p-container-padding flex-shrink-0 flex items-center gap-4 border-b border-white/10 pb-6 mb-4">
+    <img alt="Lyra logo" class="nav-brand-logo" src="assets/logo.png">
+    <div>
+    <h1 class="font-display-lg text-display-lg text-secondary text-2xl" style="font-size: 24px; line-height: 32px;">Lyra</h1>
+    <p class="font-label-caps text-label-caps text-on-surface-variant" data-i18n="brand.tagline">Cultural Synthesis</p>
+    </div>
+    </div>
+    <div class="flex-1 px-4 overflow-y-auto space-y-2">
+    <button class="aurora-ring aurora-ring--nav aurora-ring--active flex items-center gap-4 rounded-xl text-secondary transition-all duration-300 ease-in-out w-full text-left nav-item" data-section="translate" type="button">
+    <span class="aurora-ring__inner flex items-center gap-4 w-full">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">translate</span>
+    <span class="font-label-caps text-label-caps tracking-widest" data-i18n="nav.translate">Translate</span>
+    </span>
+    </button>
+    <button class="aurora-ring aurora-ring--nav flex items-center gap-4 rounded-xl text-on-surface-variant transition-all duration-300 ease-in-out w-full text-left nav-item" data-section="history" type="button">
+    <span class="aurora-ring__inner flex items-center gap-4 w-full">
+    <span class="material-symbols-outlined">auto_stories</span>
+    <span class="font-label-caps text-label-caps tracking-widest" data-i18n="nav.history">History</span>
+    </span>
+    </button>
+    <button class="aurora-ring aurora-ring--nav flex items-center gap-4 rounded-xl text-on-surface-variant transition-all duration-300 ease-in-out w-full text-left nav-item" data-section="settings" type="button">
+    <span class="aurora-ring__inner flex items-center gap-4 w-full">
+    <span class="material-symbols-outlined">settings</span>
+    <span class="font-label-caps text-label-caps tracking-widest" data-i18n="nav.settings">Settings</span>
+    </span>
+    </button>
+    <button class="aurora-ring aurora-ring--nav flex items-center gap-4 rounded-xl text-on-surface-variant transition-all duration-300 ease-in-out w-full text-left nav-item" data-section="engine" type="button">
+    <span class="aurora-ring__inner flex items-center gap-4 w-full">
+    <span class="material-symbols-outlined">memory</span>
+    <span class="font-label-caps text-label-caps tracking-widest" data-i18n="nav.engine">Engine</span>
+    </span>
+    </button>
+    </div>
+    </nav>
+    <!-- TopNavBar (Mobile) -->
+    <nav class="md:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-20 bg-transparent border-b border-white/10">
+    <div class="flex items-center gap-3">
+    <img alt="Lyra logo" class="nav-brand-logo nav-brand-logo--mobile" src="assets/logo.png">
+    <div class="font-display-lg text-display-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary text-2xl">Lyra</div>
+    </div>
+    <div class="flex items-center gap-4">
+    <button class="text-primary p-2 hover:text-secondary transition-all duration-300 ease-in-out rounded-full aurora-ring aurora-ring--interactive aurora-ring--nav aurora-ring--btn" type="button">
+    <span class="aurora-ring__inner p-2">
+    <span class="material-symbols-outlined">settings</span>
+    </span>
+    </button>
+    </div>
+    </nav>
+    <!-- Main Canvas -->
+    <main class="flex-1 relative z-10 md:ml-64 pt-24 md:pt-12 px-container-padding md:px-gutter pb-24">
+    <div class="max-w-7xl mx-auto h-full flex flex-col gap-panel-gap">
+    <!-- TRANSLATE SECTION -->
+    <section class="app-section is-active" id="section-translate" aria-labelledby="section-translate-title">
+    <!-- Controls Area -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+    <div class="flex flex-wrap gap-4 w-full md:w-auto">
+    <!-- Autocomplete: Target Language -->
+    <div class="autocomplete-wrapper group w-full md:w-56">
+    <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest" data-i18n="label.targetContext" for="target-language">Target Context</label>
+    <div class="aurora-ring aurora-ring--input">
+    <div class="aurora-ring__inner">
+    <input autocomplete="off" class="ghost-input font-body-md text-body-md px-4 py-3 w-full" data-i18n-placeholder="placeholder.language" id="target-language" placeholder="Type a language..." type="text">
+    </div>
+    </div>
+    <ul class="autocomplete-list hidden" id="language-suggestions" role="listbox"></ul>
+    </div>
+    <!-- Autocomplete: Persona -->
+    <div class="autocomplete-wrapper group w-full md:w-56">
+    <label class="font-label-caps text-label-caps text-on-surface-variant mb-2 block uppercase tracking-widest" data-i18n="label.nuanceProfile" for="persona">Nuance Profile</label>
+    <div class="aurora-ring aurora-ring--input">
+    <div class="aurora-ring__inner">
+    <input autocomplete="off" class="ghost-input font-body-md text-body-md px-4 py-3 w-full" data-i18n-placeholder="placeholder.persona" id="persona" placeholder="Type a persona..." type="text">
+    </div>
+    </div>
+    <ul class="autocomplete-list hidden" id="persona-suggestions" role="listbox"></ul>
+    </div>
+    </div>
+    <button class="aurora-ring aurora-ring--live aurora-ring--btn w-full md:w-auto mt-6 md:mt-0" id="synthesize-btn" type="button">
+        <span class="aurora-ring__inner px-8 py-4 flex items-center justify-center gap-2 hover:bg-transparent transition-colors duration-300">
+            <span class="material-symbols-outlined text-white">model_training</span>
+            <span class="font-label-caps text-label-caps text-white uppercase tracking-widest" data-i18n="action.synthesize" id="synthesize-label">Synthesize</span>
+        </span>
+    </button>
+    </div>
+    <!-- Dual Card Layout -->
+    <div class="flex flex-col lg:flex-row gap-gutter h-[60vh] min-h-[400px]">
+    <!-- Original Text Panel -->
+    <div class="aurora-ring aurora-ring--panel flex-1 relative group">
+    <div class="aurora-ring__inner flex flex-col relative border border-transparent">
+    <div class="glass-panel-header px-6 py-4 flex justify-between items-center">
+    <span class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase" data-i18n="label.originalConcept">Original Concept</span>
+    <div class="flex gap-2">
+    <span class="px-3 py-1 rounded-full bg-primary/15 text-primary font-label-caps text-[10px] uppercase tracking-wider border border-primary/20" data-i18n="label.autoDetect">Auto-Detect</span>
+    </div>
+    </div>
+    <div class="panel-text-zone flex-1 p-6 relative">
+    <textarea class="ghost-input w-full h-full font-body-lg text-body-lg text-on-surface placeholder:text-on-surface-variant/50 focus:ring-0 p-0" data-i18n-placeholder="placeholder.source" id="source-text" placeholder="Enter text or drop a document here to begin cultural synthesis..."></textarea>
+    </div>
+    </div>
+    </div>
+    <!-- Synthesized Output Panel -->
+    <div class="aurora-ring aurora-ring--panel flex-1 relative overflow-hidden group">
+    <div class="aurora-ring__inner flex flex-col relative overflow-hidden border border-transparent">
+    <!-- Progress Neon Line (Hidden by default) -->
+    <div class="absolute top-0 left-0 h-[2px] bg-cosmic-cyan w-0 transition-all duration-[2000ms] ease-in-out shadow-[0_0_10px_#5de6ff]" id="progress-line"></div>
+    <div class="glass-panel-header px-6 py-4 flex justify-between items-center">
+    <span class="font-label-caps text-label-caps text-secondary tracking-widest uppercase flex items-center gap-2">
+    <span class="material-symbols-outlined text-[18px]">temp_preferences_custom</span>
+    <span data-i18n="label.synthesizedOutput">Synthesized Output</span>
+    </span>
+    <div class="flex gap-2">
+    <button class="aurora-ring aurora-ring--interactive aurora-ring--nav aurora-ring--btn p-0" data-i18n-title="action.copy" id="copy-btn" title="Copy to clipboard" type="button">
+    <span class="aurora-ring__inner p-2 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">
+    <span class="material-symbols-outlined text-[20px]">content_copy</span>
+    </span>
+    </button>
+    </div>
+    </div>
+    <div class="panel-text-zone flex-1 p-6 overflow-y-auto">
+    <div class="font-body-lg text-body-lg text-on-surface leading-relaxed opacity-50 flex items-center justify-center h-full" id="output-content">
+    <div class="text-center">
+    <span class="material-symbols-outlined text-[48px] text-white/20 mb-4">translate</span>
+    <p class="font-body-md text-on-surface-variant" data-i18n="status.awaiting" id="output-awaiting">Awaiting input for synthesis...</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <!-- HISTORY SECTION -->
+    <section class="app-section hidden" id="section-history" aria-labelledby="section-history-title">
+    <div class="flex items-center justify-between mb-6">
+    <div>
+    <h2 class="font-display-lg text-display-lg text-secondary" data-i18n="nav.history" id="section-history-title">History</h2>
+    <p class="font-body-md text-on-surface-variant" data-i18n="history.subtitle">Session-only timeline of your recent syntheses.</p>
+    </div>
+    <button class="aurora-ring aurora-ring--btn text-xs uppercase tracking-[0.18em] text-on-surface-variant px-3 py-1.5 rounded-full" id="history-clear-btn" type="button">
+    <span class="aurora-ring__inner px-3 py-1.5 rounded-full" data-i18n="history.clear">Clear Session</span>
+    </button>
+    </div>
+    <div class="grid gap-4 lg:grid-cols-2" id="history-list" aria-live="polite">
+    <!-- Filled by script.js -->
+    </div>
+    </section>
+
+    <!-- SETTINGS SECTION -->
+    <section class="app-section hidden" id="section-settings" aria-labelledby="section-settings-title">
+    <div class="space-y-8">
+    <div>
+    <h2 class="font-display-lg text-display-lg text-secondary" data-i18n="nav.settings" id="section-settings-title">Settings</h2>
+    <p class="font-body-md text-on-surface-variant" data-i18n="settings.subtitle">Tune Lyra's mood, motion, and interface language.</p>
+    </div>
+
+    <!-- Theme Palettes -->
+    <div class="glass-panel p-6 space-y-4">
+    <h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="settings.themeTitle">Theme</h3>
+    <p class="font-body-md text-on-surface-variant text-sm" data-i18n="settings.themeDesc">Choose the color universe for gradients and accents.</p>
+    <div class="mt-4 grid md:grid-cols-3 gap-4" id="theme-options">
+    <button class="aurora-ring aurora-ring--btn theme-option w-full" data-theme="cosmic" type="button">
+    <span class="aurora-ring__inner flex items-center gap-3 px-4 py-3 rounded-xl">
+    <span class="h-8 w-8 rounded-full bg-gradient-to-tr from-cosmic-purple via-primary to-cosmic-cyan"></span>
+    <span class="text-left">
+    <span class="block text-sm font-semibold" data-i18n="theme.cosmic">Cosmic</span>
+    <span class="block text-xs text-on-surface-variant" data-i18n="theme.cosmicDesc">Default Lyra palette</span>
+    </span>
+    </span>
+    </button>
+    <button class="aurora-ring aurora-ring--btn theme-option w-full" data-theme="aurora" type="button">
+    <span class="aurora-ring__inner flex items-center gap-3 px-4 py-3 rounded-xl">
+    <span class="h-8 w-8 rounded-full bg-gradient-to-tr from-emerald-400 via-cyan-400 to-sky-500"></span>
+    <span class="text-left">
+    <span class="block text-sm font-semibold" data-i18n="theme.aurora">Aurora</span>
+    <span class="block text-xs text-on-surface-variant" data-i18n="theme.auroraDesc">Cool green & cyan</span>
+    </span>
+    </span>
+    </button>
+    <button class="aurora-ring aurora-ring--btn theme-option w-full" data-theme="rose" type="button">
+    <span class="aurora-ring__inner flex items-center gap-3 px-4 py-3 rounded-xl">
+    <span class="h-8 w-8 rounded-full bg-gradient-to-tr from-fuchsia-400 via-rose-400 to-amber-300"></span>
+    <span class="text-left">
+    <span class="block text-sm font-semibold" data-i18n="theme.rose">Rose Nebula</span>
+    <span class="block text-xs text-on-surface-variant" data-i18n="theme.roseDesc">Warm, storytelling</span>
+    </span>
+    </span>
+    </button>
+    </div>
+    </div>
+
+    <!-- Motion / Effects -->
+    <div class="glass-panel p-6 space-y-4">
+    <h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="settings.effectsTitle">Effects</h3>
+    <p class="font-body-md text-on-surface-variant text-sm" data-i18n="settings.effectsDesc">Control motion and glow for focus-friendly sessions.</p>
+    <div class="mt-4 space-y-3">
+    <label class="flex items-center justify-between gap-4">
+    <div>
+    <span class="block text-sm font-semibold" data-i18n="settings.dynamicLights">Dynamic Lights</span>
+    <span class="block text-xs text-on-surface-variant" data-i18n="settings.dynamicLightsDesc">Toggle the rotating aurora rings.</span>
+    </div>
+    <button class="aurora-ring aurora-ring--btn relative inline-flex h-7 w-12 items-center rounded-full bg-white/10 px-[3px]" id="effects-toggle" type="button">
+    <span class="aurora-ring__inner absolute inset-0 rounded-full opacity-0 pointer-events-none"></span>
+    <span class="toggle-thumb inline-flex h-5 w-5 items-center justify-center rounded-full bg-cosmic-cyan text-[10px] font-semibold text-surface is-on" id="effects-toggle-thumb">ON</span>
+    </button>
+    </label>
+    <label class="flex items-center justify-between gap-4">
+    <div>
+    <span class="block text-sm font-semibold" data-i18n="settings.dynamicBackground">Dynamic Background</span>
+    <span class="block text-xs text-on-surface-variant" data-i18n="settings.dynamicBackgroundDesc">When off, freezes the current video frame.</span>
+    </div>
+    <button class="aurora-ring aurora-ring--btn relative inline-flex h-7 w-12 items-center rounded-full bg-white/10 px-[3px]" id="background-toggle" type="button">
+    <span class="aurora-ring__inner absolute inset-0 rounded-full opacity-0 pointer-events-none"></span>
+    <span class="toggle-thumb inline-flex h-5 w-5 items-center justify-center rounded-full bg-cosmic-cyan text-[10px] font-semibold text-surface is-on" id="background-toggle-thumb">ON</span>
+    </button>
+    </label>
+    </div>
+    </div>
+
+    <!-- Interface Language -->
+    <div class="glass-panel p-6 space-y-4">
+    <h3 class="font-headline-md text-headline-md text-on-surface" data-i18n="settings.languageTitle">Interface Language</h3>
+    <p class="font-body-md text-on-surface-variant text-sm" data-i18n="settings.languageDesc">Affects interface labels, not synthesized text.</p>
+    <div class="mt-4 flex flex-wrap gap-3" id="ui-language-options">
+    <button class="aurora-ring aurora-ring--btn ui-lang-option" data-lang="en" type="button">
+    <span class="aurora-ring__inner px-4 py-2 rounded-full text-sm">English</span>
+    </button>
+    <button class="aurora-ring aurora-ring--btn ui-lang-option" data-lang="tr" type="button">
+    <span class="aurora-ring__inner px-4 py-2 rounded-full text-sm">Türkçe (beta)</span>
+    </button>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <!-- ENGINE SECTION -->
+    <section class="app-section hidden" id="section-engine" aria-labelledby="section-engine-title">
+    <div class="flex items-center justify-between mb-6">
+    <div>
+    <h2 class="font-display-lg text-display-lg text-secondary" data-i18n="nav.engine" id="section-engine-title">Engine</h2>
+    <p class="font-body-md text-on-surface-variant" data-i18n="engine.subtitle">Peek into Lyra's Stage 1 brain for your latest synthesis.</p>
+    </div>
+    </div>
+    <div id="engine-empty" class="font-body-md text-on-surface-variant bg-black/30 border border-white/10 rounded-2xl px-6 py-5 flex items-center gap-3">
+    <span class="material-symbols-outlined text-[22px] text-secondary">info</span>
+    <span data-i18n="engine.empty">No engine data yet. Run a synthesis to inspect its semantic anatomy.</span>
+    </div>
+    <div id="engine-content" class="hidden grid gap-6 lg:grid-cols-[minmax(0,1.2fr),minmax(0,1fr)]">
+    <!-- Core Meaning -->
+    <div class="glass-panel p-6 space-y-4">
+    <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+    <span class="material-symbols-outlined text-[20px] text-secondary">psychology</span>
+    <span data-i18n="engine.coreMeaning">Core Meaning</span>
+    </h3>
+    <p class="font-body-sm text-on-surface-variant text-xs uppercase tracking-[0.22em]" data-i18n="engine.coreMeaningDesc">Neutral semantic backbone</p>
+    <div class="mt-3 rounded-2xl bg-black/40 border border-white/10 px-4 py-3 text-sm leading-relaxed" id="engine-core-meaning"></div>
+    </div>
+
+    <!-- Right column: Valence + Speech Act -->
+    <div class="space-y-4">
+    <div class="glass-panel p-5 space-y-3">
+    <div class="flex items-center justify-between">
+    <div>
+    <h4 class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.22em]" data-i18n="engine.valence">Valence</h4>
+    <p class="font-body-md text-on-surface" id="engine-valence-label"></p>
+    </div>
+    <span class="material-symbols-outlined text-[22px] text-secondary" id="engine-valence-icon">mood</span>
+    </div>
+    <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+    <div class="h-full rounded-full bg-gradient-to-r from-emerald-400 via-amber-300 to-rose-400" id="engine-valence-bar" style="width: 50%;"></div>
+    </div>
+    </div>
+
+    <div class="glass-panel p-5 space-y-3">
+    <div class="flex items-center justify-between">
+    <div>
+    <h4 class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.22em]" data-i18n="engine.speechAct">Speech Act</h4>
+    <p class="font-body-md text-on-surface" id="engine-speech-act"></p>
+    </div>
+    <span class="material-symbols-outlined text-[22px] text-secondary">record_voice_over</span>
+    </div>
+    <p class="font-body-sm text-on-surface-variant text-xs leading-relaxed" id="engine-entities"></p>
+    </div>
+    </div>
+    </div>
+    </section>
+    </div>
+    </main>
+    <!-- BottomNavBar (Mobile Only) - Using generic structural interpretation as it wasn't provided in JSON but implied needed for mobile -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-[#05070A]/90 backdrop-blur-2xl flex justify-around items-center h-20 px-4 border-t border-white/5">
+    <button class="flex flex-col items-center gap-1 text-secondary p-2 mobile-nav-item" data-section="translate" type="button">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">translate</span>
+    <span class="text-[10px] font-medium tracking-wide" data-i18n="nav.translate">Translate</span>
+    </button>
+    <button class="flex flex-col items-center gap-1 text-on-surface-variant p-2 mobile-nav-item" data-section="history" type="button">
+    <span class="material-symbols-outlined">auto_stories</span>
+    <span class="text-[10px] font-medium tracking-wide" data-i18n="nav.history">History</span>
+    </button>
+    <button class="flex flex-col items-center gap-1 text-on-surface-variant p-2 mobile-nav-item" data-section="settings" type="button">
+    <span class="material-symbols-outlined">settings</span>
+    <span class="text-[10px] font-medium tracking-wide" data-i18n="nav.settings">Settings</span>
+    </button>
+    </nav>
+    
+    
+    <script src="script.js"></script>
+    </body></html>
