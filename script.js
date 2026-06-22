@@ -3,7 +3,7 @@
  * FastAPI translate endpoint integration
  */
 
-const API_URL = 'https://lyra-0tfe.onrender.com/translate';
+const API_URL = 'https://utkmst-lyra-api.hf.space/translate';
 
 const LANGUAGE_SUGGESTIONS = [
   'Japanese (Business)',
