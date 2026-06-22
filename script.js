@@ -3,7 +3,7 @@
  * FastAPI translate endpoint integration
  */
 
-const API_URL = 'https://utkmst-lyra-api.hf.space/translate';
+const API_URL = 'lyra-backend-production-5515.up.railway.app/translate';
 
 const LANGUAGE_SUGGESTIONS = [
   'Japanese (Business)',
