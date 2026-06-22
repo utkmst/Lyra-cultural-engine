@@ -358,6 +358,7 @@ async function synthesize() {
         'Content-Type': 'application/json',
         'Bypass-Tunnel-Reminder': 'true',
       },
+      signal: AbortSignal.timeout(60000),
       body: JSON.stringify({
         text,
         target_language: language,
